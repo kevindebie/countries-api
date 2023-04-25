@@ -1,11 +1,25 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
       "*.html"
   ],
   theme: {
-    extend: {},
+    colors: {
+      ...colors,
+      'light-gray': '#fafafa',
+
+    },
+    extend: {
+      fontFamily: {
+        'sans': ['Nunito Sans', ...defaultTheme.fontFamily.sans]
+      }
+    }
   },
-  plugins: [],
+  plugins: [
+      require('@tailwindcss/typography'),
+  ],
 }
 
