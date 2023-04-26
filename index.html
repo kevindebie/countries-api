@@ -12,7 +12,7 @@
     <script src="https://kit.fontawesome.com/a53bfd9d13.js" crossorigin="anonymous"></script>
     <title>Countries API</title>
 </head>
-<body class="flex flex-col min-h-screen bg-light-gray" x-data="$store.Globals">
+<body class="flex flex-col min-h-screen bg-light-gray">
 <header class="bg-white py-8 shadow-md shadow-gray-100 px-4 md:px-8">
     <div class="prose prose-sm max-w-none flex justify-between items-center">
         <h1 class="mb-0">Where in the world?</h1>
@@ -36,7 +36,7 @@
         <div>
             <select x-model="filteredRegion" class="shadow-md shadow-gray-100 rounded-md p-4 cursor-pointer hover:shadow-gray-200">
                 <option value="All">Filter by Region</option>
-                <template x-for="region in regions">
+                <template x-for="region in $store.Globals.regions">
                     <option :value="region" x-text="region"></option>
                 </template>
             </select>

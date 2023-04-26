@@ -11,22 +11,20 @@ export default () => ({
         }
 
         if (this.filteredRegion) {
-            const resultRegion = [];
-            console.log(results);
-            for (const region of results) {
-                console.log(region);
-                let addProduct = false;
-                if (region.continents.includes(this.filteredRegion)) {
-                    addProduct = true;
+            if (this.filteredRegion !== 'All') {
+                const resultRegion = [];
+
+                for (const region of results) {
+                    let addProduct = false;
+                    if (region.continents.includes(this.filteredRegion)) {
+                        addProduct = true;
+                    }
+                    if (addProduct) {
+                        resultRegion.push(region);
+                    }
                 }
-                if (addProduct) {
-                    resultRegion.push(region);
-                }
-                if (this.filteredRegion === 'All') {
-                    results = this.$store.Globals.countries;
-                }
+                results = resultRegion;
             }
-            results = resultRegion;
         }
 
         return results;
