@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/dist/output.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;600;800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a53bfd9d13.js" crossorigin="anonymous"></script>
+    <title>Country - Countries API</title>
+</head>
+<body x-data="Country" class="flex flex-col min-h-screen bg-light-gray">
+
+    <header-component></header-component>
+
+    <main x-init="getCountry()" class="flex-grow py-12">
+        <div class="px-4 md:px-8 lg:max-w-[1350px] lg:mx-auto">
+
+            <a @click="history.back()"
+               class="inline-block bg-white py-2 px-8 mb-12 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20">
+                Back
+            </a>
+
+            <div class="grid gap-16 md:grid-cols-2 lg:gap-32">
+                <div>
+                    <div x-show="isLoading">Loading...</div>
+                    <img class="w-full h-full object-cover" :src="`${country[0].flags.svg}`" :alt="`${country[0].flags.alt}`">
+                </div>
+
+                <div class="prose prose-p:my-0 md:py-8">
+                    <h1 x-text="country[0].name.common"></h1>
+                    <p class="flex gap-2 items-center">
+                        <strong>Native name:</strong>
+                        <span x-text="lastCommonValue"></span>
+                    </p>
+                    <p class="flex gap-2 items-center">
+                        <strong>Population:</strong> <span x-text="country[0].population"></span>
+                    </p>
+                    <p class="flex gap-2 items-center">
+                        <strong>Region:</strong> <span x-text="country[0].region"></span>
+                    </p>
+                    <p class="flex gap-2 items-center">
+                        <strong>Sub region:</strong> <span x-text="country[0].subregion"></span>
+                    </p>
+                    <p class="flex gap-2 items-center">
+                        <strong>Capital:</strong> <span x-text="country[0].capital[0]"></span>
+                    </p>
+                    <p class="flex gap-2 items-center">
+                        <strong>Top level domain:</strong> <span x-text="country[0].tld[0]"></span>
+                    </p>
+                    <p class="flex gap-2 items-center">
+                        <strong>Currencies:</strong>
+                        <template x-for="currency in country[0].currencies">
+                            <span x-text="currency.name"></span>
+                        </template>
+                    </p>
+                    <p class="flex gap-2 items-center">
+                        <strong>Languages:</strong>
+                        <span class="inline-flex gap-1">
+                            <template x-for="(language, key) in country[0].languages" :key="key">
+                                <span class="inline-flex">
+                                    <span x-text="language"></span>
+                                    <template x-if="Object.keys(country[0].languages).indexOf(key) !== Object.entries(country[0].languages).length - 1">
+                                        <span>,</span>
+                                    </template>
+                                </span>
+                            </template>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p class="text-center text-xs py-2">Created by Kevin de Bie</p>
+    </footer>
+
+    <loading-spinner></loading-spinner>
+
+    <script defer type="module" src="/dist/bundle.js"></script>
+
+</body>
+</html>
