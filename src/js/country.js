@@ -36,18 +36,13 @@ export default function () {
                 });
         },
 
-        getBorderCountryNames() {
+        getBorderCountries() {
             const allCountries = this.$store.Globals.countries;
+            const borderCountries = allCountries.filter(obj => {
+                return this.currentBorderCountries.includes(obj.cca3);
+            });
 
-            console.log(allCountries);
-
-            const matchingCountries= allCountries.filter(obj => {
-                return this.currentBorderCountries.includes(obj.fifa);
-            }).map(obj => obj.name.common);
-
-            console.log(matchingCountries);
-
-            return matchingCountries;
+            return borderCountries;
         }
     }
 }

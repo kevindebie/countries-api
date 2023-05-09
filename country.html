@@ -83,10 +83,11 @@
                     <p class="flex flex-wrap gap-2 items-start !mt-12 lg:flex-nowrap">
                         <strong class="text-lg shrink-0 pt-1 dark:text-white">Border countries:</strong>
                         <span class="inline-flex gap-2 flex-wrap">
-                            <template x-for="borderCountry in currentBorderCountries">
-                                <span @click="window.location.href = `./?country=${borderCountry}`"
-                                      class="inline-flex text-sm bg-white py-2 px-4 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20 dark:bg-dark-blue dark:text-white/75 dark:hover:text-white">
-                                    <span x-text="borderCountry"></span>
+                            <template x-for="borderCountry in getBorderCountries">
+                                <span @click="window.location.href = `./?country=${borderCountry.cca3}`"
+                                      class="inline-flex text-sm bg-white py-2 px-4 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20 dark:bg-dark-blue dark:text-white/75 dark:hover:text-white"
+                                >
+                                    <span x-text="borderCountry.name.common"></span>
                                 </span>
                             </template>
                         </span>
