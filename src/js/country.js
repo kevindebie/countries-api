@@ -38,11 +38,9 @@ export default function () {
 
         getBorderCountries() {
             const allCountries = this.$store.Globals.countries;
-            const borderCountries = allCountries.filter(obj => {
+            return allCountries.filter(obj => {
                 return this.currentBorderCountries.includes(obj.cca3);
             });
-
-            return borderCountries;
         }
     }
 }
