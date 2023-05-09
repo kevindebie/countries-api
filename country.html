@@ -16,8 +16,8 @@
 
     <header-component></header-component>
 
-    <main x-init="getCountry()" class="flex-grow py-12">
-        <div class="px-4 md:px-8 lg:max-w-[1350px] lg:mx-auto">
+    <main class="flex-grow py-12">
+        <div x-data="getCountry" class="px-4 md:px-8 lg:max-w-[1350px] lg:mx-auto">
 
             <a @click="history.back()"
                class="inline-block bg-white py-2 px-8 mb-12 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20">
@@ -26,15 +26,14 @@
 
             <div class="grid gap-16 md:grid-cols-2 lg:gap-32">
                 <div>
-                    <div x-show="isLoading">Loading...</div>
-                    <img class="w-full h-full object-cover" :src="`${country[0].flags.svg}`" :alt="`${country[0].flags.alt}`">
+                    <img class="w-full h-auto md:h-full object-cover" :src="`${country[0].flags.svg}`" :alt="`${country[0].flags.alt}`">
                 </div>
 
                 <div class="prose prose-p:my-0 md:py-8">
                     <h1 x-text="country[0].name.common"></h1>
                     <p class="flex gap-2 items-center">
                         <strong>Native name:</strong>
-                        <span x-text="lastCommonValue"></span>
+                        <span x-text="lastNativeCommonValue"></span>
                     </p>
                     <p class="flex gap-2 items-center">
                         <strong>Population:</strong> <span x-text="country[0].population"></span>
@@ -66,6 +65,17 @@
                                     <template x-if="Object.keys(country[0].languages).indexOf(key) !== Object.entries(country[0].languages).length - 1">
                                         <span>,</span>
                                     </template>
+                                </span>
+                            </template>
+                        </span>
+                    </p>
+                    <p class="flex gap-2 items-start !mt-12">
+                        <strong class="shrink-0 pt-2">Border countries:</strong>
+                        <span class="inline-flex gap-2 flex-wrap">
+                            <template x-for="borderCountry in currentBorderCountries">
+                                <span @click="window.location.href = `./?country=${borderCountry}`"
+                                      class="inline-flex text-sm bg-white py-2 px-4 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20">
+                                    <span x-text="borderCountry"></span>
                                 </span>
                             </template>
                         </span>

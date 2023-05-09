@@ -6,7 +6,7 @@ export default {
     init() {
         this.isLoading = true;
 
-        fetch("https://restcountries.com/v3.1/all?fields=name,capital,population,continents,flags")
+        fetch("https://restcountries.com/v3.1/all?fields=name,capital,population,continents,flags,fifa,cca3")
             .then(response => response.json())
             .then(data => {
                 this.countries = data;
@@ -16,9 +16,6 @@ export default {
                 this.regions = [...new Set(continents.map(continent => continent))];
 
                 console.log(this.countries);
-                console.log(this.regions);
-
-                return this.regions;
             })
     }
 }

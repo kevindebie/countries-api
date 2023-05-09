@@ -41,13 +41,13 @@
             <template x-for="country in searchedCountries">
                 <div class="shadow-md shadow-gray-100">
                     <div class="h-40">
-                        <a @click="window.location.href = `./country.html/?country=${country.name.common}`"
+                        <a @click="window.location.href = `./country.html/?country=${country.cca3}`"
                            class="cursor-pointer">
                             <img class="rounded-t-md w-full h-full object-cover" :src="`${country.flags.svg}`" :alt="`${country.flags.alt}`">
                         </a>
                     </div>
                     <div class="bg-white p-6 rounded-b-md">
-                        <h3 @click="window.location.href = `./country.html/?country=${country.name.common}`"
+                        <h3 @click="window.location.href = `./country.html/?country=${country.cca3}`"
                             class="font-bold text-lg mb-3 cursor-pointer" x-text="country.name.common"></h3>
                         <ul class="text-sm leading-loose">
                             <li><span class="font-semibold">Population:</span> <span x-text="country.population"></span></li>
