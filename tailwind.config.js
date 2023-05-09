@@ -22,7 +22,16 @@ module.exports = {
         extend: {
             fontFamily: {
                 'sans': ['Nunito Sans', ...defaultTheme.fontFamily.sans]
-            }
+            },
+            typography: ({ theme }) => ({
+                DEFAULT: {
+                    css: {
+                        '--tw-prose-body': theme('colors.darkest-blue'),
+                        '--tw-prose-headings': theme('colors.darkest-blue'),
+                        '--tw-prose-bold': theme('colors.darkest-blue'),
+                    }
+                }
+            }),
         }
     },
     plugins: [

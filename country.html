@@ -12,7 +12,7 @@
     <script src="https://kit.fontawesome.com/a53bfd9d13.js" crossorigin="anonymous"></script>
     <title>Country - Countries API</title>
 </head>
-<body x-data="Country" class="flex flex-col min-h-screen" :class="$store.darkMode ? 'dark' : ''">
+<body x-data="Country" class="flex flex-col min-h-screen text-darkest-blue" :class="$store.darkMode ? 'dark' : ''">
 
     <header-component></header-component>
 
@@ -81,13 +81,18 @@
                         </span>
                     </p>
                     <p class="flex flex-wrap gap-2 items-start !mt-12 lg:flex-nowrap">
-                        <strong class="text-lg shrink-0 pt-1 dark:text-white">Border countries:</strong>
+                        <strong :class="'borders' in country[0] ? 'pt-1' : ''" class="text-lg shrink-0 dark:text-white">Border countries:</strong>
                         <span class="inline-flex gap-2 flex-wrap">
-                            <template x-for="borderCountry in getBorderCountries">
+                            <template x-if="'borders' in country[0]'" x-for="borderCountry in getBorderCountries">
                                 <span @click="window.location.href = `./?country=${borderCountry.cca3}`"
                                       class="inline-flex text-sm bg-white py-2 px-4 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20 dark:bg-dark-blue dark:text-white/75 dark:hover:text-white"
                                 >
                                     <span x-text="borderCountry.name.common"></span>
+                                </span>
+                            </template>
+                            <template x-if="'borders' in country[0] == false">
+                                <span class="inline-flex gap-1">No border countries found for
+                                    <span x-text="country[0].name.common"></span>
                                 </span>
                             </template>
                         </span>
