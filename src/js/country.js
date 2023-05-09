@@ -15,8 +15,6 @@ export default function () {
                     this.country = data;
                     console.log(this.country);
 
-                    console.log(this.country[0].cca3);
-
                     /* Disable loading spinner */
                     Alpine.store('Globals').isLoading = false;
 
@@ -41,7 +39,7 @@ export default function () {
         getBorderCountryNames() {
             const allCountries = this.$store.Globals.countries;
 
-            console.log(this.currentBorderCountries);
+            console.log(allCountries);
 
             const matchingCountries= allCountries.filter(obj => {
                 return this.currentBorderCountries.includes(obj.fifa);

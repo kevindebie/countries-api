@@ -1,12 +1,15 @@
 export default {
+    darkMode: false,
     countries: [],
     regions: [],
     isLoading: false,
+    chevronDown: '/src/icons/chevron-down.svg#chevron-down',
+    arrowLeft: '/src/icons/arrow-left.svg#arrow-left',
 
     init() {
         this.isLoading = true;
 
-        fetch("https://restcountries.com/v3.1/all?fields=name,capital,population,continents,flags,fifa,cca3")
+        fetch("https://restcountries.com/v3.1/all?fields=name,capital,population,continents,flags,cca3")
             .then(response => response.json())
             .then(data => {
                 this.countries = data;

@@ -12,69 +12,80 @@
     <script src="https://kit.fontawesome.com/a53bfd9d13.js" crossorigin="anonymous"></script>
     <title>Country - Countries API</title>
 </head>
-<body x-data="Country" class="flex flex-col min-h-screen bg-light-gray">
+<body x-data="Country" class="flex flex-col min-h-screen" :class="$store.darkMode ? 'dark' : ''">
 
     <header-component></header-component>
 
-    <main class="flex-grow py-12">
+    <main class="flex-grow pt-12 pb-16 bg-light-gray dark:bg-dark-bg md:py-12">
         <div x-data="getCountry" class="px-4 md:px-8 lg:max-w-[1350px] lg:mx-auto">
 
             <a @click="history.back()"
-               class="inline-block bg-white py-2 px-8 mb-12 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20">
+               class="inline-flex items-center gap-2 bg-white py-2 pl-6 pr-8 mb-12 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20 dark:bg-dark-blue dark:text-white/75 dark:hover:text-white">
+                <svg viewBox="0 0 24 24" class="inline-block w-4 h-4 stroke-current dark:stroke-white">
+                    <use :href="$store.Globals.arrowLeft"></use>
+                </svg>
                 Back
             </a>
 
-            <div class="grid gap-16 md:grid-cols-2 lg:gap-32">
+            <div class="grid gap-8 md:grid-cols-2 md:gap-16 lg:gap-32">
                 <div>
-                    <img class="w-full h-auto md:h-full object-cover" :src="`${country[0].flags.svg}`" :alt="`${country[0].flags.alt}`">
+                    <img class="w-full h-auto lg:h-full object-cover" :src="`${country[0].flags.svg}`" :alt="`${country[0].flags.alt}`">
                 </div>
 
                 <div class="prose prose-p:my-0 md:py-8">
-                    <h1 x-text="country[0].name.common"></h1>
+                    <h1 class="dark:text-white" x-text="country[0].name.common"></h1>
                     <p class="flex gap-2 items-center">
-                        <strong>Native name:</strong>
-                        <span x-text="lastNativeCommonValue"></span>
+                        <strong class="dark:text-white">Native name:</strong> <span class="dark:text-white/75" x-text="lastNativeCommonValue"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong>Population:</strong> <span x-text="country[0].population"></span>
+                        <strong class="dark:text-white">Population:</strong> <span class="dark:text-white/75" x-text="country[0].population"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong>Region:</strong> <span x-text="country[0].region"></span>
+                        <strong class="dark:text-white">Region:</strong> <span class="dark:text-white/75" x-text="country[0].region"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong>Sub region:</strong> <span x-text="country[0].subregion"></span>
+                        <strong class="dark:text-white">Sub region:</strong> <span class="dark:text-white/75" x-text="country[0].subregion"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong>Capital:</strong> <span x-text="country[0].capital[0]"></span>
+                        <strong class="dark:text-white">Capital:</strong> <span class="dark:text-white/75" x-text="country[0].capital[0]"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong>Top level domain:</strong> <span x-text="country[0].tld[0]"></span>
+                        <strong class="dark:text-white">Top level domain:</strong> <span class="dark:text-white/75" x-text="country[0].tld[0]"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong>Currencies:</strong>
-                        <template x-for="currency in country[0].currencies">
-                            <span x-text="currency.name"></span>
-                        </template>
+                        <strong class="dark:text-white">Currencies:</strong>
+                        <span class="inline-flex gap-1">
+                            <template x-for="(currency, key) in country[0].currencies" :key="key">
+                                 <span class="inline-flex">
+                                    <span class="dark:text-white/75" x-text="currency.name"></span>
+                                    <template x-if="Object.keys(country[0].currencies).indexOf(key) !== Object.entries(country[0].currencies).length - 1">
+                                        <span class="inline-flex">
+                                            <span class="dark:text-white/75">,</span>
+                                        </span>
+                                    </template>
+                                 </span>
+                            </template>
+                        </span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong>Languages:</strong>
+                        <strong class="dark:text-white">Languages:</strong>
                         <span class="inline-flex gap-1">
                             <template x-for="(language, key) in country[0].languages" :key="key">
                                 <span class="inline-flex">
-                                    <span x-text="language"></span>
+                                    <span class="dark:text-white/75" x-text="language"></span>
                                     <template x-if="Object.keys(country[0].languages).indexOf(key) !== Object.entries(country[0].languages).length - 1">
-                                        <span>,</span>
+                                        <span class="dark:text-white/75">,</span>
                                     </template>
                                 </span>
                             </template>
                         </span>
                     </p>
-                    <p class="flex gap-2 items-start !mt-12">
-                        <strong class="shrink-0 pt-2">Border countries:</strong>
+                    <p class="flex flex-wrap gap-2 items-start !mt-12 lg:flex-nowrap">
+                        <strong class="text-lg shrink-0 pt-1 dark:text-white">Border countries:</strong>
                         <span class="inline-flex gap-2 flex-wrap">
                             <template x-for="borderCountry in currentBorderCountries">
                                 <span @click="window.location.href = `./?country=${borderCountry}`"
-                                      class="inline-flex text-sm bg-white py-2 px-4 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20">
+                                      class="inline-flex text-sm bg-white py-2 px-4 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20 dark:bg-dark-blue dark:text-white/75 dark:hover:text-white">
                                     <span x-text="borderCountry"></span>
                                 </span>
                             </template>
@@ -85,9 +96,7 @@
         </div>
     </main>
 
-    <footer>
-        <p class="text-center text-xs py-2">Created by Kevin de Bie</p>
-    </footer>
+    <footer-component></footer-component>
 
     <loading-spinner></loading-spinner>
 

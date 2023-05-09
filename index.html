@@ -12,41 +12,46 @@
     <script src="https://kit.fontawesome.com/a53bfd9d13.js" crossorigin="anonymous"></script>
     <title>Countries API</title>
 </head>
-<body x-data="Countries" class="flex flex-col min-h-screen bg-light-gray">
+<body x-data="Countries" class="flex flex-col min-h-screen" :class="$store.darkMode ? 'dark' : ''">
 
     <header-component></header-component>
 
-    <main class="flex-grow py-12">
+    <main class="flex-grow py-12 bg-light-gray dark:bg-dark-bg">
         <div class="flex justify-between items-center px-4 md:px-8 lg:max-w-[1350px] lg:mx-auto">
             <div class="w-full max-w-[35%]">
                 <input type="text"
-                       class="w-full shadow-md shadow-gray-100 rounded-md p-4 hover:shadow-gray-200 focus:shadow-gray-200"
+                       class="w-full shadow-md shadow-gray-100 rounded-md p-4 hover:shadow-gray-200 focus:shadow-gray-200 dark:bg-dark-blue dark:text-white dark:shadow-darkest-blue/10 dark:hover:dark:shadow-darkest-blue/10 dark:focus:dark:shadow-darkest-blue/10"
                        x-model="search"
                        @keyup="searchedCountries"
                        placeholder="Search for a country..."
                 />
             </div>
 
-            <div>
-                <select x-model="filteredRegion" class="shadow-md shadow-gray-100 rounded-md p-4 cursor-pointer hover:shadow-gray-200">
-                    <option value="All">Filter by Region</option>
+            <div class="relative">
+                <select x-model="filteredRegion" class="appearance-none shadow-md shadow-gray-100 rounded-md p-4 pr-16 cursor-pointer hover:shadow-gray-200 dark:bg-dark-blue dark:text-white dark:shadow-darkest-blue/10">
+                    <option value="All" class="appearance-none dark:bg-dark-blue">Filter by Region</option>
                     <template x-for="region in $store.Globals.regions">
-                        <option :value="region" x-text="region"></option>
+                        <option :value="region" x-text="region" class="appearance-none dark:bg-dark-blue"></option>
                     </template>
                 </select>
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <svg viewBox="0 0 24 24" class="inline-block w-4 h-4 stroke-current dark:stroke-white">
+                        <use :href="$store.Globals.chevronDown"></use>
+                    </svg>
+                </span>
             </div>
         </div>
 
         <div class="grid grid-cols-2 px-4 pt-12 gap-6 md:px-8 md:grid-cols-3 lg:grid-cols-4 md:gap-8 lg:gap-16 lg:max-w-[1350px] lg:mx-auto">
             <template x-for="country in searchedCountries">
-                <div class="shadow-md shadow-gray-100">
+                <div class="shadow-md shadow-gray-100 dark:shadow-darkest-blue/10">
                     <div class="h-40">
                         <a @click="window.location.href = `./country.html/?country=${country.cca3}`"
                            class="cursor-pointer">
                             <img class="rounded-t-md w-full h-full object-cover" :src="`${country.flags.svg}`" :alt="`${country.flags.alt}`">
                         </a>
                     </div>
-                    <div class="bg-white p-6 rounded-b-md">
+                    <div class="bg-white p-6 rounded-b-md dark:bg-dark-blue dark:text-white">
                         <h3 @click="window.location.href = `./country.html/?country=${country.cca3}`"
                             class="font-bold text-lg mb-3 cursor-pointer" x-text="country.name.common"></h3>
                         <ul class="text-sm leading-loose">
@@ -62,9 +67,7 @@
         <countries x-ref="countriesComponent"></countries>
     </main>
 
-    <footer>
-        <p class="text-center text-xs py-2">Created by Kevin de Bie</p>
-    </footer>
+    <footer-component></footer-component>
 
     <loading-spinner></loading-spinner>
 
