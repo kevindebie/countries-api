@@ -32,30 +32,46 @@
                     <img class="w-full h-auto lg:h-full object-cover" :src="`${country[0].flags.svg}`" :alt="`${country[0].flags.alt}`">
                 </div>
 
-                <div class="prose prose-p:my-0 md:py-8">
-                    <h1 class="dark:text-white" x-text="country[0].name.common"></h1>
+                <div class="prose prose-p:my-0 prose-h1:mb-0 md:py-8">
+                    <div x-data="{ showInfo: false }" class="flex items-center gap-4 mb-4 relative">
+                        <h1 class="dark:text-white" x-text="country[0].name.common"></h1>
+                        <a :href="country[0].maps.googleMaps" target="_blank" class="relative leading-none duration-300 hover:text-dark-gray dark:text-white dark:hover:text-dark-gray"
+                            @mouseover="showInfo = ! showInfo" @mouseout="showInfo = false">
+                            <i class="fa-solid fa-location-dot text-2xl"></i>
+                            <div x-show="showInfo" class="absolute top-8 left-1/2 -translate-x-1/2 min-w-[200px] bg-dark-gray text-white p-2 rounded-sm text-xs text-center"
+                                 x-transition:enter="transition ease-out duration-300"
+                                 x-transition:enter-start="opacity-0 scale-90"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-300"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-90">
+                                <span>View <span x-text="country[0].name.common"></span> on Google Maps.</span>
+                            </div>
+                        </a>
+
+                    </div>
                     <p class="flex gap-2 items-center">
-                        <strong class="dark:text-white">Native name:</strong> <span class="dark:text-white/75" x-text="lastNativeCommonValue"></span>
+                        <strong class="dark:text-white">Native name:</strong> <span :class="country[0].name.nativeName ? 'dark:text-white/75' : 'text-red-500'" x-text="country[0].name.nativeName ? lastNativeCommonValue : `${$store.Globals.notFound}`"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong class="dark:text-white">Population:</strong> <span class="dark:text-white/75" x-text="country[0].population"></span>
+                        <strong class="dark:text-white">Population:</strong> <span :class="country[0].population ? 'dark:text-white/75' : 'text-red-500'" x-text="country[0].population ? country[0].population : `${$store.Globals.notFound}`"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong class="dark:text-white">Region:</strong> <span class="dark:text-white/75" x-text="country[0].region"></span>
+                        <strong class="dark:text-white">Region:</strong> <span :class="country[0].region ? 'dark:text-white/75' : 'text-red-500'" x-text="country[0].region ? country[0].region : `${$store.Globals.notFound}`"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong class="dark:text-white">Sub region:</strong> <span class="dark:text-white/75" x-text="country[0].subregion"></span>
+                        <strong class="dark:text-white">Sub region:</strong> <span :class="country[0].subregion ? 'dark:text-white/75' : 'text-red-500'" x-text="country[0].subregion ? country[0].subregion : `${$store.Globals.notFound}`"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong class="dark:text-white">Capital:</strong> <span class="dark:text-white/75" x-text="country[0].capital[0]"></span>
+                        <strong class="dark:text-white">Capital:</strong> <span :class="country[0].capital ? 'dark:text-white/75' : 'text-red-500'" x-text="country[0].capital ? country[0].capital[0] : `${$store.Globals.notFound}`"></span>
                     </p>
                     <p class="flex gap-2 items-center">
-                        <strong class="dark:text-white">Top level domain:</strong> <span class="dark:text-white/75" x-text="country[0].tld[0]"></span>
+                        <strong class="dark:text-white">Top level domain:</strong> <span :class="country[0].tld ? 'dark:text-white/75' : 'text-red-500'" x-text="country[0].tld ? country[0].tld[0] : `${$store.Globals.notFound}`"></span>
                     </p>
                     <p class="flex gap-2 items-center">
                         <strong class="dark:text-white">Currencies:</strong>
                         <span class="inline-flex gap-1">
-                            <template x-for="(currency, key) in country[0].currencies" :key="key">
+                            <template x-if="'currencies' in country[0]" x-for="(currency, key) in country[0].currencies" :key="key">
                                  <span class="inline-flex">
                                     <span class="dark:text-white/75" x-text="currency.name"></span>
                                     <template x-if="Object.keys(country[0].currencies).indexOf(key) !== Object.entries(country[0].currencies).length - 1">
@@ -65,18 +81,24 @@
                                     </template>
                                  </span>
                             </template>
+                            <template x-if="'currencies' in country[0] == false">
+                                <span class="text-red-500" x-text="`${$store.Globals.notFound}`"></span>
+                            </template>
                         </span>
                     </p>
                     <p class="flex gap-2 items-center">
                         <strong class="dark:text-white">Languages:</strong>
                         <span class="inline-flex gap-1">
-                            <template x-for="(language, key) in country[0].languages" :key="key">
+                            <template x-if="'languages' in country[0]" x-for="(language, key) in country[0].languages" :key="key">
                                 <span class="inline-flex">
                                     <span class="dark:text-white/75" x-text="language"></span>
                                     <template x-if="Object.keys(country[0].languages).indexOf(key) !== Object.entries(country[0].languages).length - 1">
                                         <span class="dark:text-white/75">,</span>
                                     </template>
                                 </span>
+                            </template>
+                            <template x-if="'languages' in country[0] == false">
+                                <span class="text-red-500" x-text="`${$store.Globals.notFound}`"></span>
                             </template>
                         </span>
                     </p>
@@ -91,8 +113,8 @@
                                 </span>
                             </template>
                             <template x-if="'borders' in country[0] == false">
-                                <span class="inline-flex gap-1">No border countries found for
-                                    <span x-text="country[0].name.common"></span>
+                                <span class="inline-flex gap-1 dark:text-white/75">
+                                    <span x-text="country[0].name.common"></span> has no bordering countries.
                                 </span>
                             </template>
                         </span>
@@ -106,7 +128,7 @@
 
     <loading-spinner></loading-spinner>
 
-    <script defer type="module" src="/dist/bundle.js"></script>
+    <script type="module" src="/dist/bundle.js"></script>
 
 </body>
 </html>

@@ -5,6 +5,7 @@ export default {
     isLoading: false,
     chevronDown: '/src/icons/chevron-down.svg#chevron-down',
     arrowLeft: '/src/icons/arrow-left.svg#arrow-left',
+    notFound: 'Not found',
 
     init() {
         this.isLoading = true;

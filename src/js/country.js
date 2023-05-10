@@ -5,14 +5,12 @@ export default function () {
         lastNativeCommonValue: '',
         currentBorderCountries: [],
 
-        getCountry() {
+        async getCountry() {
             Alpine.store('Globals').isLoading = true;
             console.log(this.selectedCountry);
 
-            fetch(`https://restcountries.com/v3.1/alpha/${this.selectedCountry}`)
-                .then(response => response.json())
-                .then(data => {
-                    this.country = data;
+            const response = await fetch(`https://restcountries.com/v3.1/alpha/${this.selectedCountry}`);
+            this.country = await response.json();
                     console.log(this.country);
 
                     /* Disable loading spinner */
@@ -33,7 +31,6 @@ export default function () {
                         const lastItem = this.country[0].name.nativeName[lastKey];
                         this.lastNativeCommonValue = lastItem.common;
                     }
-                });
         },
 
         getBorderCountries() {
