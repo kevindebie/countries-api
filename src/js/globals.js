@@ -21,5 +21,5 @@ export default {
 
                 console.log(this.countries);
             })
-    }
+    },
 }
