@@ -7,28 +7,31 @@ export default function () {
 
         async getCountry() {
             Alpine.store('Globals').isLoading = true;
-            const response = await fetch(`https://restcountries.com/v3.1/alpha/${this.selectedCountry}`);
-            this.country = await response.json();
 
-            console.log(this.country);
+            if(this.selectedCountry) {
+                const response = await fetch(`https://restcountries.com/v3.1/alpha/${this.selectedCountry}`);
+                this.country = await response.json();
 
-            /* Disable loading spinner */
-            Alpine.store('Globals').isLoading = false;
+                console.log(this.country);
 
-            /* Change document title to country name */
-            document.title = `${this.country[0].name.common} - Countries API`;
+                /* Disable loading spinner */
+                Alpine.store('Globals').isLoading = false;
 
-            /* Get border countries */
-            if (this.country[0].hasOwnProperty('borders')) {
-                this.currentBorderCountries = Object.values(this.country[0].borders);
-            }
+                /* Change document title to country name */
+                document.title = `${this.country[0].name.common} - Countries API`;
 
-            /* Get common value from last item in nativeName object */
-            if (this.country[0].name.nativeName) {
-                const keys = Object.keys(this.country[0].name.nativeName);
-                const lastKey = keys[keys.length - 1];
-                const lastItem = this.country[0].name.nativeName[lastKey];
-                this.lastNativeCommonValue = lastItem.common;
+                /* Get border countries */
+                if (this.country[0].hasOwnProperty('borders')) {
+                    this.currentBorderCountries = Object.values(this.country[0].borders);
+                }
+
+                /* Get common value from last item in nativeName object */
+                if (this.country[0].name.nativeName) {
+                    const keys = Object.keys(this.country[0].name.nativeName);
+                    const lastKey = keys[keys.length - 1];
+                    const lastItem = this.country[0].name.nativeName[lastKey];
+                    this.lastNativeCommonValue = lastItem.common;
+                }
             }
         },
 
@@ -37,6 +40,15 @@ export default function () {
             return allCountries.filter(obj => {
                 return this.currentBorderCountries.includes(obj.cca3);
             });
+        },
+
+        goBackButton() {
+            if (this.selectedCountry) {
+                history.back()
+            } else {
+                const rootPath = window.location.pathname.substring(1).split('/')[0];
+                window.location.pathname = `${rootPath}/index.html`;
+            }
         }
     }
 }
