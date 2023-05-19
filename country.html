@@ -19,7 +19,6 @@
     <main class="flex-grow pt-12 pb-16 bg-light-gray dark:bg-dark-bg md:py-12">
         <div x-data="getCountry" class="px-4 md:px-8 lg:max-w-[1350px] lg:mx-auto">
 
-            <!-- Message when no country is in URL -->
             <template x-if="!country[0]">
                 <div class="flex gap-2 items-center bg-red-500/10 text-red-500 p-4 md:mb-12">
                     <i class="fa-solid fa-circle-exclamation"></i>
@@ -27,7 +26,6 @@
                 </div>
             </template>
 
-            <!-- Back button -->
             <a @click="goBackButton()"
                class="inline-flex items-center gap-2 bg-white py-2 pl-6 pr-8 mb-12 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20 dark:bg-dark-blue dark:text-white/75 dark:hover:text-white">
                 <svg viewBox="0 0 24 24" class="inline-block w-4 h-4 stroke-current dark:stroke-white">
@@ -81,7 +79,7 @@
                     <p class="flex gap-2 items-center">
                         <strong class="dark:text-white">Currencies:</strong>
                         <span class="inline-flex gap-1">
-                            <template x-if="'currencies' in country[0]" x-for="(currency, key) in country[0].currencies" :key="key">
+                            <template x-for="(currency, key) in country[0].currencies" :key="key">
                                  <span class="inline-flex">
                                     <span class="dark:text-white/75" x-text="currency.name"></span>
                                     <template x-if="Object.keys(country[0].currencies).indexOf(key) !== Object.entries(country[0].currencies).length - 1">
@@ -99,7 +97,7 @@
                     <p class="flex gap-2 items-center">
                         <strong class="dark:text-white">Languages:</strong>
                         <span class="inline-flex gap-1">
-                            <template x-if="'languages' in country[0]" x-for="(language, key) in country[0].languages" :key="key">
+                            <template x-for="(language, key) in country[0].languages" :key="key">
                                 <span class="inline-flex">
                                     <span class="dark:text-white/75" x-text="language"></span>
                                     <template x-if="Object.keys(country[0].languages).indexOf(key) !== Object.entries(country[0].languages).length - 1">
@@ -115,7 +113,7 @@
                     <p class="flex flex-wrap gap-2 items-start !mt-12 lg:flex-nowrap">
                         <strong :class="{'pt-1' : 'borders' in country[0]}" class="text-lg shrink-0 dark:text-white">Border countries:</strong>
                         <span class="inline-flex gap-2 flex-wrap">
-                            <template x-if="'borders' in country[0]" x-for="borderCountry in getBorderCountries">
+                            <template x-for="borderCountry in getBorderCountries">
                                 <span @click="window.location.href = `./?country=${borderCountry.cca3}`"
                                       class="inline-flex text-sm bg-white py-2 px-4 shadow-md cursor-pointer duration-300 hover:shadow-lg hover:shadow-black/20 dark:bg-dark-blue dark:text-white/75 dark:hover:text-white"
                                 >
