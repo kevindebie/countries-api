@@ -4,6 +4,7 @@ export default function () {
         selectedCountry: window.location.search.substring(1).split('=')[1],
         lastNativeCommonValue: '',
         currentBorderCountries: [],
+        rootPath: window.location.pathname.substring(1).split('/')[0],
 
         async getCountry() {
             Alpine.store('Globals').isLoading = true;
@@ -46,8 +47,7 @@ export default function () {
             if (this.selectedCountry) {
                 history.back()
             } else {
-                const rootPath = window.location.pathname.substring(1).split('/')[0];
-                window.location.pathname = `${rootPath}/index.html`;
+                window.location.pathname = `${this.rootPath}/index.html`;
             }
         }
     }
